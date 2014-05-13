@@ -1,0 +1,6 @@
+INDEX VERSION 1.126+/home/weston/Documents/programming/Java-Dev/QuikChan/WorkspaceI/.metadata/.plugins/org.eclipse.jdt.core
+893988201.index
+4210300149.index
+51193649.index
+3886663719.index
+2019377329.index

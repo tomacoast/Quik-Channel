@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Quikchannel</string>
+    <string name="action_settings">Settings</string>
+    <string name="direct_connect_button">Direct Connect</string>
+    <string name="browse_boards_button">Browse Boards</string>
+
+</resources>
