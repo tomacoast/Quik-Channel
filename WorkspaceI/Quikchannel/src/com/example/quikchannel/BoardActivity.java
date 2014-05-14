@@ -9,6 +9,7 @@ public class BoardActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		//this is a git test
 		this.setContentView(R.layout.activity_board);
 	}
 }
