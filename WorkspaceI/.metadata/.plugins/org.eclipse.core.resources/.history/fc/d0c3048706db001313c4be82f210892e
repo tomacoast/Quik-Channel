@@ -1,0 +1,7 @@
+package com.example.quikchannel;
+
+import android.view.View;
+
+public class BoardView extends View {
+
+}
