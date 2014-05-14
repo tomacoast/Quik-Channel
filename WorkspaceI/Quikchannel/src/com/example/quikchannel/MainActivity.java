@@ -2,14 +2,32 @@ package com.example.quikchannel;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 
+	private Button directConnectButton;
+	private Button browseBoardsButton;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        directConnectButton = (Button) findViewById(R.id.direct_connect_button);
+        browseBoardsButton = (Button) findViewById(R.id.browse_boards_button);
+        
+        directConnectButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(v.getContext(), BoardActivity.class);
+				v.getContext().startActivity(i);
+			}
+		});
     }
 
 
