@@ -1,4 +1,5 @@
 import json
+#import simplejson
 import time
 import datetime
 
@@ -6,6 +7,8 @@ class Board:
     threads = []
     def __init__(self, title):
         self.title = title
+        self.json_file = open("board.json", "w")
+        #self.json_file_data = simplejson.loads(self.json_file)
     
     def add_thread(self, thread_title, thread_author): #Add required image
         new_thread = Thread(thread_title, thread_author)
@@ -18,6 +21,8 @@ class Board:
             threads_in_json.append(thread.in_json)
         board_data = {"title":self.title, "threads":threads_in_json}
         self.in_json = json.dumps(board_data, sort_keys=False, indent=2)
+        for line in self.in_json:
+            self.json_file.write(line)
 
 class Thread:
 
@@ -62,7 +67,9 @@ class Post:
 manChan = Board("manChan")
 manChan.add_thread("Sauce?", None)
 post = Post(None, "This thread blows", "Weston")
+another_post = Post("Why I Hate QuikChan", "Does nobody ever post anything goohd?", None)
 manChan.threads[0].add_post(post)
+manChan.threads[0].add_post(another_post)
 manChan.update()
 print manChan.in_json
 
