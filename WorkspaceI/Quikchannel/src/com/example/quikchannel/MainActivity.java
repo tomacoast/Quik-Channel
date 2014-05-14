@@ -1,5 +1,10 @@
 package com.example.quikchannel;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.Scanner;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +30,10 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(v.getContext(), BoardActivity.class);
+				InputStream stream = null;
+				stream = v.getContext().getResources().openRawResource(R.raw.betterexample);
+				Scanner s = new Scanner(stream).useDelimiter("\\A");
+				i.putExtra("board_data", s.next());
 				v.getContext().startActivity(i);
 			}
 		});
