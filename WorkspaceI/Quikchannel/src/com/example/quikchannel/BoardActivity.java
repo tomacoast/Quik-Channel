@@ -10,7 +10,6 @@ import org.json.simple.parser.ParseException;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.JsonReader;
 
 public class BoardActivity extends Activity {
 
@@ -45,6 +44,9 @@ public class BoardActivity extends Activity {
 			}
 		}
 		
+		
 		this.setContentView(R.layout.activity_board);
+		
+		((EntryView) this.findViewById(R.id.entryView1)).setEntry(board.getThreads().get(0).getEntries().get(0));
 	}
 }
