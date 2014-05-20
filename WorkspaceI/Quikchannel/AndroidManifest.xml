@@ -26,6 +26,18 @@
             android:name="com.example.quikchannel.BoardActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.example.quikchannel.ThreadActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.quikchannel.MakePostActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.quikchannel.MakeThreadActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

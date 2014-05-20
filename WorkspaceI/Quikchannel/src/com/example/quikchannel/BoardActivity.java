@@ -1,5 +1,6 @@
 package com.example.quikchannel;
 
+import com.example.quikchannel.Views.BoardView;
 import com.example.quikchannel.data.*;
 import com.example.quikchannel.data.Thread;
 
@@ -42,11 +43,14 @@ public class BoardActivity extends Activity {
 				entry.setTitle((String)jEntry.get("title"));
 				thread.getEntries().add(entry);
 			}
+			
 		}
 		
 		
 		this.setContentView(R.layout.activity_board);
 		
-		((EntryView) this.findViewById(R.id.entryView1)).setEntry(board.getThreads().get(0).getEntries().get(0));
+		((BoardView) this.findViewById(R.id.boardView1)).setBoard(board);
+//		((ThreadView) this.findViewById(R.id.threadView1)).setThread(board.getThreads().get(0));
+//		((ThreadView) this.findViewById(R.id.threadView2)).setThread(board.getThreads().get(1));
 	}
 }
