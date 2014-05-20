@@ -1,5 +1,5 @@
 import json
-#import simplejson
+from pprint import pprint
 import time
 import datetime
 
@@ -8,11 +8,20 @@ class Board:
     def __init__(self, title):
         self.title = title
         self.json_file = open("board.json", "w")
+        self.post_id_counter = 0
         #self.json_file_data = simplejson.loads(self.json_file)
     
-    def add_thread(self, thread_title, thread_author): #Add required image
-        new_thread = Thread(thread_title, thread_author)
+    def add_thread(self, thread_title, thread_text, thread_author): #Add required image
+        self.post_id_counter = self.post_id_counter + 1
+        post_id = self.post_id_counter
+        new_thread = Thread(thread_title, thread_text, thread_author, post_id)
         self.threads.append(new_thread)
+    
+    def add_post(self, thread, title, text, author):
+        self.post_id_counter = self.post_id_counter + 1
+        post_id = self.post_id_counter
+        new_post = Post(title, text, author, post_id) 
+        thread.add_post(new_post)
     
     def update(self):
         threads_in_json = []
@@ -26,17 +35,23 @@ class Board:
 
 class Thread:
 
-    def __init__(self, title, author):
+    def __init__(self, title, text, author, thread_id):
         if title == None:
             self.title = "Thread"
         else:
             self.title = title
+        if text == None:
+            self.text = "No Text"
+        else:
+            self.text = text
         if author == None:
             self.author = "Anonymous"
         else:
             self.author = author
-        self.timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
         self.posts = []
+        self.thread_id = thread_id
+        new_post = Post(self.title, self.text, self.author, thread_id)
+        self.add_post(new_post)
         
         #self.image = image
         
@@ -46,11 +61,11 @@ class Thread:
         self.posts.append(post.in_json)
     
     def update(self):
-        self.in_json = {"title":self.title, "author":self.author, "timestamp":self.timestamp, "posts":self.posts}
+        self.in_json = {"entries":self.posts}
         
 class Post:
     
-    def __init__(self, title, text, author): #Add optional image
+    def __init__(self, title, text, author, post_id): #Add optional image
         if title == None:
             self.title = "Comment"
         else:
@@ -59,17 +74,30 @@ class Post:
             self.author = "Anonymous"
         else:
             self.author = author
+        self.post_id = post_id
         self.text = text
         self.timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-        self.in_json = {"title":self.title, "author":self.author, "timestamp":self.timestamp, "text":self.text}
-        
+        self.in_json = {"title":self.title, "author":self.author, "id":self.post_id, "timestamp":self.timestamp, "text":self.text}
+
+class JSON_Board_Loader:
+    
+    def __init__(self, json_file_path, board):
+        self.board = board
+        self.json_data = open(json_file_path)
+        data = json.load(self.json_data)
+        if data["threadid"] == -1:
+            board.add_thread(data["title"], data["text"], data["author"])
+        else:
+            for thread in board.threads:
+                if thread.thread_id == data["threadid"]:
+                    board.add_post(thread, data["title"], data["text"], data["author"])
 
 manChan = Board("manChan")
-manChan.add_thread("Sauce?", None)
-post = Post(None, "This thread blows", "Weston")
-another_post = Post("Why I Hate QuikChan", "Does nobody ever post anything goohd?", None)
-manChan.threads[0].add_post(post)
-manChan.threads[0].add_post(another_post)
+manChan.add_thread("Sauce?", None, None)
+manChan.add_post(manChan.threads[0], "Why I Hate QuikChan", "Does nobody ever post anything goohd?", None)
+manChan.add_post(manChan.threads[0], None, "This thread blows", "Weston")
+load_it = JSON_Board_Loader("new_thread_temp.json", manChan)
+load_it = JSON_Board_Loader("new_post_temp.json", manChan)
 manChan.update()
 print manChan.in_json
 

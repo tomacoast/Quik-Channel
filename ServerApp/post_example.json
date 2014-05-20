@@ -1,0 +1,16 @@
+THIS CREATES A NEW THREAD
+{
+	"threadid":-1,
+	"title":"title",
+	"timestamp":"4/20/2014 16:20",
+	"author":"Anonymoose",
+	"text":"whatever"
+}
+THIS CREATES A POST IN THREAD WITH ID 4
+{
+	"threadid":4,
+	"title":"title",
+	"timestamp":"4/20/2014 16:20",
+	"author":"Anonymoose",
+	"text":"whatever"
+}
