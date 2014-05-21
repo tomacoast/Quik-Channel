@@ -81,7 +81,7 @@ class Post:
 
 class JSON_Board_Loader:
     
-    def __init__(self, json_file_path, board):
+    def add_to_loaded(self, json_file_path, board):
         self.board = board
         self.json_data = open(json_file_path)
         data = json.load(self.json_data)
@@ -92,11 +92,13 @@ class JSON_Board_Loader:
                 if thread.thread_id == data["threadid"]:
                     board.add_post(thread, data["title"], data["text"], data["author"])
 
+loader = JSON_Board_Loader()
 manChan = Board("manChan")
 manChan.add_thread("Sauce?", None, None)
 manChan.add_post(manChan.threads[0], "Why I Hate QuikChan", "Does nobody ever post anything goohd?", None)
 manChan.add_post(manChan.threads[0], None, "This thread blows", "Weston")
-load_it = JSON_Board_Loader("new_thread_temp.json", manChan)
+loader.add_to_loaded("new_thread_temp.json", manChan)
+loader.add_to_loaded("new_post_temp.json", manChan)
 manChan.update()
 print manChan.in_json
 
