@@ -1,39 +1,34 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
-
-    <Button
-        android:id="@+id/direct_connect_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:text="@string/direct_connect_button" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:text="@string/main_title"
-        android:textSize="40sp"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+		android:layout_gravity="center_horizontal"
+		android:textColor="@color/text_color"
+        android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    
     <Button
         android:id="@+id/browse_boards_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/textView1"
-        android:layout_marginTop="100dp"
+        android:layout_margin="10sp"
+        android:layout_width="fill_parent"
+		android:textColor="@color/text_color"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:text="@string/browse_boards_button" />
+    <Button
+        android:id="@+id/direct_connect_button"
+		android:textColor="@color/text_color"
+        android:layout_margin="10sp"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:text="@string/direct_connect_button" />
 
-</RelativeLayout>
+</LinearLayout>

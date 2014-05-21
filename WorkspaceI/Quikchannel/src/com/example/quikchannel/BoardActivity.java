@@ -10,7 +10,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 public class BoardActivity extends Activity {
 
@@ -50,6 +53,14 @@ public class BoardActivity extends Activity {
 		this.setContentView(R.layout.activity_board);
 		
 		((BoardView) this.findViewById(R.id.boardView1)).setBoard(board);
+		this.findViewById(R.id.add_thread_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(v.getContext(), MakeThreadActivity.class);
+				v.getContext().startActivity(i);
+			}
+		});
 //		((ThreadView) this.findViewById(R.id.threadView1)).setThread(board.getThreads().get(0));
 //		((ThreadView) this.findViewById(R.id.threadView2)).setThread(board.getThreads().get(1));
 	}

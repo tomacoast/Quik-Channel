@@ -14,9 +14,10 @@ public final class R {
         public static final int author_color=0x7f050002;
         public static final int background=0x7f050006;
         public static final int box_color=0x7f050005;
-        public static final int colors=0x7f050008;
+        public static final int colors=0x7f050009;
         public static final int greentext=0x7f050007;
         public static final int id_color=0x7f050001;
+        public static final int post_count_color=0x7f050008;
         public static final int text_color=0x7f050004;
         public static final int time_color=0x7f050003;
         public static final int title_color=0x7f050000;
@@ -35,25 +36,27 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0012;
-        public static final int add_entry_button=0x7f0a0011;
+        public static final int action_settings=0x7f0a0014;
+        public static final int add_entry_button=0x7f0a0013;
+        public static final int add_thread_button=0x7f0a0001;
         public static final int author_box_post=0x7f0a0007;
-        public static final int author_box_thread=0x7f0a000c;
+        public static final int author_box_thread=0x7f0a000e;
         public static final int boardView1=0x7f0a0002;
-        public static final int browse_boards_button=0x7f0a0005;
-        public static final int button1=0x7f0a0001;
+        public static final int browse_boards_button=0x7f0a0004;
         public static final int content_text_post=0x7f0a0009;
-        public static final int content_text_thread=0x7f0a000e;
-        public static final int direct_connect_button=0x7f0a0003;
+        public static final int content_text_thread=0x7f0a0010;
+        public static final int direct_connect_button=0x7f0a0005;
+        public static final int image_select=0x7f0a000a;
         public static final int make_post_title=0x7f0a0006;
-        public static final int make_thread_title=0x7f0a000b;
+        public static final int make_thread_title=0x7f0a000d;
+        public static final int post_image_view=0x7f0a000b;
         public static final int scrollView1=0x7f0a0000;
-        public static final int submit_post=0x7f0a000a;
-        public static final int submit_thread=0x7f0a000f;
-        public static final int textView1=0x7f0a0004;
-        public static final int threadView1=0x7f0a0010;
+        public static final int submit_post=0x7f0a000c;
+        public static final int submit_thread=0x7f0a0011;
+        public static final int textView1=0x7f0a0003;
+        public static final int threadView1=0x7f0a0012;
         public static final int title_box_post=0x7f0a0008;
-        public static final int title_box_thread=0x7f0a000d;
+        public static final int title_box_thread=0x7f0a000f;
     }
     public static final class layout {
         public static final int activity_board=0x7f030000;
@@ -80,6 +83,7 @@ public final class R {
         public static final int main_title=0x7f070005;
         public static final int make_post_title=0x7f070008;
         public static final int make_thread_title=0x7f070009;
+        public static final int select_image=0x7f07000d;
         public static final int submit=0x7f07000a;
         public static final int title=0x7f07000c;
     }
