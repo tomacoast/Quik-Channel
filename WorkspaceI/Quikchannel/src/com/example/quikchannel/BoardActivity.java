@@ -1,5 +1,7 @@
 package com.example.quikchannel;
 
+import java.util.concurrent.ExecutionException;
+
 import com.example.quikchannel.Views.BoardView;
 import com.example.quikchannel.data.*;
 import com.example.quikchannel.data.Thread;
@@ -11,9 +13,14 @@ import org.json.simple.parser.ParseException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 public class BoardActivity extends Activity {
 
@@ -21,10 +28,32 @@ public class BoardActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_board);
+//		RequestImageTask task = new RequestImageTask((ImageView) this.findViewById(R.id.imageView1), this);
+//		task.execute(4);
+//		RequestImageTask task2 = new RequestImageTask((ImageView) this.findViewById(R.id.imageView2), this);
+//		task2.execute(0);
+		
+		onBoardLoaded(this.getIntent().getExtras().getString("board_data"));
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.action_reply:
+			Intent i = new Intent(this, MakeThreadActivity.class);
+			this.startActivity(i);
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	public void onBoardLoaded(String sBoard) {
 		JSONParser parser = new JSONParser();
 		JSONObject jBoard = new JSONObject();
 		try {
-			jBoard = (JSONObject) parser.parse(this.getIntent().getExtras().getString("board_data"));
+			jBoard = (JSONObject) parser.parse(sBoard);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,22 +75,14 @@ public class BoardActivity extends Activity {
 				entry.setTitle((String)jEntry.get("title"));
 				thread.getEntries().add(entry);
 			}
-			
 		}
-		
-		
-		this.setContentView(R.layout.activity_board);
-		
 		((BoardView) this.findViewById(R.id.boardView1)).setBoard(board);
-		this.findViewById(R.id.add_thread_button).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent i = new Intent(v.getContext(), MakeThreadActivity.class);
-				v.getContext().startActivity(i);
-			}
-		});
-//		((ThreadView) this.findViewById(R.id.threadView1)).setThread(board.getThreads().get(0));
-//		((ThreadView) this.findViewById(R.id.threadView2)).setThread(board.getThreads().get(1));
 	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.refresh_and_reply, menu);
+        return true;
+    }
 }

@@ -33,18 +33,11 @@ public class MainActivity extends Activity {
 				InputStream stream = null;
 				stream = v.getContext().getResources().openRawResource(R.raw.betterexample);
 				Scanner s = new Scanner(stream).useDelimiter("\\A");
+				
+				
 				i.putExtra("board_data", s.next());
 				v.getContext().startActivity(i);
 			}
 		});
     }
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-    
 }
