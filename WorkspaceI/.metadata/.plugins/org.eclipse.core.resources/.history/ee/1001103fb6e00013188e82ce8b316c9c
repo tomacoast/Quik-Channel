@@ -1,0 +1,7 @@
+package com.example.quikchannel;
+
+import android.os.AsyncTask;
+
+public class SendStringTask extends AsyncTask<Params, Progress, Result> {
+
+}

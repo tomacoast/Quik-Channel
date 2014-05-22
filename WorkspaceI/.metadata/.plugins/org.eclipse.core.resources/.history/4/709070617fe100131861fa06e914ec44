@@ -1,0 +1,13 @@
+package com.example.quikchannel;
+
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+
+public class RequestImageTask extends AsyncTask<Integer, Void, Bitmap> {
+	@Override
+	protected Bitmap doInBackground(Integer... params) {
+		// TODO Auto-generated method stub
+		int imageid = params[0].intValue();
+		return null;
+	}
+}

@@ -1,0 +1,77 @@
+package com.example.quikchannel;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import org.json.simple.JSONObject;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+
+public class MakePostActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_make_post);
+		this.findViewById(R.id.submit_post).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//generates title, text, author, and timestamp
+				int threadid = ((Activity) v.getContext()).getIntent().getExtras().getInt("threadid");
+				String text = ((EditText) ((Activity) v.getContext()).findViewById(R.id.content_text_post)).getText().toString();
+				String author = ((EditText) ((Activity) v.getContext()).findViewById(R.id.author_box_post)).getText().toString();
+				String title = ((EditText) ((Activity) v.getContext()).findViewById(R.id.title_box_post)).getText().toString();
+				String time = "noTime";
+				if (author == null || author.equals("")) {
+					author = "Anonymos";
+				}
+				if (text == null || text.equals("")) {
+					text = "No Text";
+				}
+				if (title == null || title.equals("")) {
+					title = "Title";
+				}
+				JSONObject o = new JSONObject();
+				Time now = new Time();
+				now.setToNow();
+				time = now.format("%m/%d/%Y %H:%M");
+				o.put("author", author);
+				o.put("text", text);
+				o.put("title", title);
+				o.put("timestamp", time);
+				o.put("newthread", "false");
+				Socket s = null;
+				try {
+					s = new Socket(InetAddress.getLocalHost(), 430);
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				PrintWriter out = null;
+				try {
+					out = new PrintWriter(s.getOutputStream());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				out.println(o.toJSONString());
+				Log.d("MakePostActivity", o.toJSONString());
+			}
+		});
+	}
+}

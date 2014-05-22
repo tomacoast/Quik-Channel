@@ -1,0 +1,36 @@
+package com.example.quikchannel;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import android.os.AsyncTask;
+import android.util.Log;
+
+public class SendStringTask extends AsyncTask<String, Void, Void> {
+	@Override
+	protected Void doInBackground(String... arg0) {
+		Socket s = null;
+		try {
+			s = new Socket(InetAddress.getLocalHost(), 430);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(s.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.println(o.toJSONString());
+		Log.d("MakePostActivity", o.toJSONString());
+		return null;
+	}
+}

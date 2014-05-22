@@ -1,0 +1,39 @@
+package com.example.quikchannel;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import org.json.simple.JSONObject;
+
+import android.os.AsyncTask;
+import android.util.Log;
+
+public class RequestTask extends AsyncTask<String, Void, String> {
+	@Override
+	protected String doInBackground(String... params) {
+		JSONObject requestObject = new JSONObject();
+		requestObject.put("request", params[0]);
+		try {
+			Socket s = new Socket("192.168.0.6", 42074);
+			s.getOutputStream().write(requestObject.toJSONString().getBytes());
+			s.getOutputStream().flush();
+			ArrayList<Byte> bytes = new ArrayList<Byte>();
+			while (true) {
+				if (s.getInputStream().available() > 0) {
+					
+				}
+				break;
+			}
+			s.close();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

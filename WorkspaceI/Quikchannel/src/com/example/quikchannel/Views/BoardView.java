@@ -1,0 +1,68 @@
+package com.example.quikchannel.Views;
+
+import java.util.ArrayList;
+
+import com.example.quikchannel.R;
+import com.example.quikchannel.ThreadActivity;
+import com.example.quikchannel.data.Board;
+import com.example.quikchannel.data.Thread;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
+import android.provider.Telephony.Threads;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+public class BoardView extends LinearLayout {
+	
+	private Board board;
+	private ArrayList<ThreadView> threadViews;
+	private ArrayList<TextView> entryCounts;
+	private AttributeSet attrs;
+	
+	public BoardView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+		threadViews = new ArrayList<ThreadView>();
+		entryCounts = new ArrayList<TextView>();
+		this.attrs = attrs;
+	}
+	
+	public void setBoard(Board board) {
+		this.board = board;
+		for (Thread thread : board.getThreads()) {
+			ThreadView view = new ThreadView(getContext(), this.attrs);
+			view.setThread(thread.asPreview(2));
+			view.setExpandedThread(thread);
+			threadViews.add(view);
+			
+			TextView count = new TextView(this.getContext());
+			count.setTextColor(this.getResources().getColor(R.color.post_count_color));
+			count.setText(thread.getEntries().size() + " posts in thread");
+			entryCounts.add(count);
+		}
+		for (int i = 0; i < threadViews.size(); i++) {
+			this.addView(entryCounts.get(i));
+			ThreadView view = threadViews.get(i);
+			this.addView(view);
+			view.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ThreadView tv = (ThreadView) v;
+					Intent i = new Intent(v.getContext(), ThreadActivity.class);
+					i.putExtra("thread", tv.getExpandedThread());
+					v.getContext().startActivity(i);
+				}
+			});
+		}
+	}
+}

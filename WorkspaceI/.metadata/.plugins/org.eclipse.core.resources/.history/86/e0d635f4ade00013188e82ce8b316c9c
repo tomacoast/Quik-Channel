@@ -1,0 +1,49 @@
+package com.example.quikchannel;
+
+import org.json.simple.JSONObject;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+
+public class MakeThreadActivity extends Activity {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_make_thread);
+		this.findViewById(R.id.submit_thread).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//generates title, text, author, and timestamp
+				String text = ((EditText) ((Activity) v.getContext()).findViewById(R.id.content_text_thread)).getText().toString();
+				String author = ((EditText) ((Activity) v.getContext()).findViewById(R.id.author_box_thread)).getText().toString();
+				String title = ((EditText) ((Activity) v.getContext()).findViewById(R.id.title_box_thread)).getText().toString();
+				String time = "noTime";
+				if (author == null || author.equals("")) {
+					author = "Anonymos";
+				}
+				if (text == null || text.equals("")) {
+					text = "No Text";
+				}
+				if (title == null || title.equals("")) {
+					title = "Title";
+				}
+				JSONObject o = new JSONObject();
+				Time now = new Time();
+				now.setToNow();
+				time = now.format("%m/%d/%Y %H:%M");
+				o.put("author", author);
+				o.put("text", text);
+				o.put("title", title);
+				o.put("timestamp", time);
+				Log.d("MakePostActivity", o.toJSONString());
+			}
+		});
+	}
+}

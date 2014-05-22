@@ -1,0 +1,77 @@
+package com.example.quikchannel;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import org.json.simple.JSONObject;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.ImageView;
+
+public class RequestImageTask extends AsyncTask<Integer, Void, Bitmap> {
+	
+	private ImageView view;
+	private Activity context;
+	private Bitmap bitmap;
+	
+	public RequestImageTask(ImageView view, Activity context) {
+		this.view = view;
+		this.context = context;
+	}
+	
+	@Override
+	protected Bitmap doInBackground(Integer... params) {
+		// TODO Auto-generated method stub
+		int imageid = params[0].intValue();
+		JSONObject requestObject = new JSONObject();
+		requestObject.put("request", "image");
+		requestObject.put("image", imageid + ".jpg");
+		Bitmap bmp = null;
+		try {
+			//Socket s = new Socket("192.168.0.6", 42080);
+			Socket s = new Socket("10.230.37.207", 42080);
+			s.getOutputStream().write(requestObject.toJSONString().getBytes());
+			s.getOutputStream().write('\n');
+			s.getOutputStream().flush();
+			ArrayList<Integer> ints = new ArrayList<Integer>();
+			while (true) {
+				ints.add(s.getInputStream().read());
+//				Log.d("test", String.valueOf(s.getInputStream().read()));
+				if (ints.get(ints.size()-1) < 0) {
+					break;
+				}
+			}
+			Log.d("test", String.valueOf(ints.size()));
+			Object[] intarray = ints.toArray();
+			ints.clear();
+			byte[] bytes = new byte[intarray.length];
+			for (int i = 0; i < intarray.length; i++) {
+				bytes[i] = ((Integer) intarray[i]).byteValue();
+			}
+			intarray = null;
+			bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+			context.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					view.setImageBitmap(bitmap);
+				}
+			});
+			s.close();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bmp;
+	}
+}

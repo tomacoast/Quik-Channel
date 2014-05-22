@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_color">#5B0099</color>
+    <color name="id_color">#A40085</color>
+    <color name="author_color">#117743</color>
+    <color name="time_color">#1B002E</color>
+    <color name="text_color">#800021</color>
+    <color name="box_color">#000000</color>
+    <color name="background">#F0E0D6</color>
+    <color name="greentext">#809922</color>
+</resources>

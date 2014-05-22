@@ -1,0 +1,11 @@
+package com.example.quikchannel;
+
+import android.os.AsyncTask;
+
+public class RequestTask extends AsyncTask<String, Void, String> {
+	@Override
+	protected String doInBackground(String... params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

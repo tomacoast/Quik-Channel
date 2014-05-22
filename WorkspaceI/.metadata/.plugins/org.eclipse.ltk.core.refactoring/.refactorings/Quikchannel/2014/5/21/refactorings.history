@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Quikchannel/res/menu/main.xml&apos; to &apos;refresh_and_reply&apos;" description="Rename resource &apos;main.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/menu/main.xml" name="refresh_and_reply" stamp="1400726794945" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Quikchannel/res/menu/refresh_and_reply&apos; to &apos;refresh_and_reply.xml&apos;" description="Rename resource &apos;refresh_and_reply&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/menu/refresh_and_reply" name="refresh_and_reply.xml" stamp="1400726806595" updateReferences="true"/>
+</session>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/make_thread_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/make_thread_title"
+            android:textColor="@color/text_color"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/author_box_thread"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:hint="@string/author"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/title_box_thread"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:hint="@string/title"
+                android:ems="10" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/content_text_thread"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:textColor="@color/text_color" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/submit_thread"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:textColor="@color/text_color" />
+
+    </LinearLayout>
+    
+
+</ScrollView>

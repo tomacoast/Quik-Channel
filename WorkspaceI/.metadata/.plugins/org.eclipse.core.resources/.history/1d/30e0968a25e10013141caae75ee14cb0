@@ -1,0 +1,109 @@
+package com.example.quikchannel;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import org.json.simple.JSONObject;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.format.Time;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+public class MakePostActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_make_post);
+		this.findViewById(R.id.submit_post).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				//generates title, text, author, and timestamp
+				int threadid = ((Activity) v.getContext()).getIntent().getExtras().getInt("threadid");
+				Log.d("MakePostActivity", "thread id is " + threadid);
+				String text = ((EditText) ((Activity) v.getContext()).findViewById(R.id.content_text_post)).getText().toString();
+				String author = ((EditText) ((Activity) v.getContext()).findViewById(R.id.author_box_post)).getText().toString();
+				String title = ((EditText) ((Activity) v.getContext()).findViewById(R.id.title_box_post)).getText().toString();
+				String time = "noTime";
+				if (author == null || author.equals("")) {
+					author = "Anonymos";
+				}
+				if (text == null || text.equals("")) {
+					text = "No Text";
+				}
+				if (title == null || title.equals("")) {
+					title = "Title";
+				}
+				JSONObject o = new JSONObject();
+				Time now = new Time();
+				now.setToNow();
+				time = now.format("%m/%d/%Y %H:%M");
+				o.put("author", author);
+				o.put("text", text);
+				o.put("title", title);
+				o.put("timestamp", time);
+				o.put("threadid", threadid);
+				new SendBytesTask().execute(o.toJSONString().getBytes());
+			}
+		});
+		this.findViewById(R.id.image_select).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent();
+				i.setType("image/*");
+				i.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(i, "Complete action using"), 1);
+			}
+		});
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+	    switch (requestCode) {
+
+	    case 1:
+	        if (data != null) {
+	            Uri path = selectedImageUri = data.getData();
+	            String selectedImagePath = getPath(path);
+	BitmapFactory.Options options = new BitmapFactory.Options();
+	                options.inJustDecodeBounds = true;
+	Bitmap btemp = BitmapFactory.decodeFile(selectedImagePath,
+	                        options);
+	          /// use btemp Image file 
+
+	        }
+	        break;
+	    }
+
+	}
+
+
+	   public String getPath(Uri uri) {
+	    String[] projection = { MediaStore.Images.Media.DATA };
+	    Cursor cursor = managedQuery(uri, projection, null, null, null);
+	    int column_index = cursor
+	            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	    cursor.moveToFirst();
+	    return cursor.getString(column_index);
+	}
+}
