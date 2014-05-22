@@ -29,13 +29,16 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(v.getContext(), BoardActivity.class);
-				InputStream stream = null;
-				stream = v.getContext().getResources().openRawResource(R.raw.betterexample);
-				Scanner s = new Scanner(stream).useDelimiter("\\A");
+//				Intent i = new Intent(v.getContext(), BoardActivity.class);
+//				InputStream stream = null;
+//				stream = v.getContext().getResources().openRawResource(R.raw.betterexample);
+//				Scanner s = new Scanner(stream).useDelimiter("\\A");
+//				
+//				i.putExtra("board_data", s.next());
+//				s.close();
+//				v.getContext().startActivity(i);
 				
-				
-				i.putExtra("board_data", s.next());
+				Intent i = new Intent(v.getContext(), IpSelectActivity.class);
 				v.getContext().startActivity(i);
 			}
 		});

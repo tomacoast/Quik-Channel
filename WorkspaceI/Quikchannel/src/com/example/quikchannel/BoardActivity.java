@@ -24,6 +24,9 @@ import android.widget.ImageView;
 
 public class BoardActivity extends Activity {
 
+	private String IP;
+	private int PORT;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -34,7 +37,12 @@ public class BoardActivity extends Activity {
 //		RequestImageTask task2 = new RequestImageTask((ImageView) this.findViewById(R.id.imageView2), this);
 //		task2.execute(0);
 		
-		onBoardLoaded(this.getIntent().getExtras().getString("board_data"));
+		this.IP = this.getIntent().getExtras().getString("IP");
+		this.PORT = this.getIntent().getExtras().getInt("PORT");
+		RequestBoardTask task = new RequestBoardTask(this, (BoardView) this.findViewById(R.id.boardView1), IP, PORT);
+		task.execute();
+		
+		//onBoardLoaded(this.getIntent().getExtras().getString("board_data"));
 	}
 	
 	@Override
@@ -43,6 +51,8 @@ public class BoardActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.action_reply:
 			Intent i = new Intent(this, MakeThreadActivity.class);
+			i.putExtra("PORT", PORT);
+			i.putExtra("IP", IP);
 			this.startActivity(i);
 			break;
 		}

@@ -12,12 +12,17 @@ import com.example.quikchannel.Views.ThreadView;
 import com.example.quikchannel.data.Thread;
 
 public class ThreadActivity extends Activity {
+	
 	public Thread t;
+	private String ip;
+	private int port;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		this.ip = this.getIntent().getExtras().getString("IP");
+		this.port = this.getIntent().getExtras().getInt("PORT");
 		this.setContentView(R.layout.activity_thread);
 		t = (Thread) this.getIntent().getSerializableExtra("thread");
 		((ThreadView) this.findViewById(R.id.threadView1)).setThread(t);
@@ -29,6 +34,8 @@ public class ThreadActivity extends Activity {
 		case R.id.action_reply:
 			Intent i = new Intent(this, MakePostActivity.class);
 			i.putExtra("threadid", ((ThreadActivity) this).t.getEntries().get(0).getID());
+			i.putExtra("PORT", port);
+			i.putExtra("IP", ip);
 			this.startActivity(i);
 			break;
 		}

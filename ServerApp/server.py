@@ -119,7 +119,7 @@ def recvUntilEOI(sock):
 		data+=part
 		for i in range(1, len(part)):
 			if ord(part[i]) == 217 and ord(part[i-1]) == 255:
-				return data
+				return data[0:len(data)-2] #removing the EOI bits in cas it's not an image
 	return data
 
 def writeToFile(data, filename):
@@ -137,21 +137,22 @@ def serveClient(client, address):
 				imgdata = data[i:len(data)] #when it finds it, it assigns it to imgdata
 				jsondata = data[0:i] #and the rest to jsondata
 				break
+		if imgdata != None:
+			imgdata = imgdata + (chr(255) + chr(217)) #adding the EOI bits back to the image
 		loadedData = json.loads(jsondata)
-		#print loadedData
-		#print imgdata
-		print loadedData['request']
+		print "found json data :" + str(loadedData)
 		if loadedData['request'] == False: #if it's not a request
 			if (loadedData['threadid'] >= 0): #adding a post to a thread
-				print "writing!"
 				#write the image to a file with the name of the post id if the image is there
 				if imgdata:
+					print "saving an image to " + str(loadedData['threadid']) + ".jpg"
 					writeToFile(imgdata, str(loadedData['threadid']) + ".jpg")
-			else: #adding a thread to a board
+				#TODO: write the json to a post
+			else: #TODO: adding a thread to a board and save the image with the correct ID
 				pass
 		else: #send requested data to the client
 			if loadedData['request'] == 'board':
-				client.send('data!\n') #send json data
+				client.send('data!\n') #TODO: send json data
 			if loadedData['request'] == 'image':
 				img = open(loadedData['image']) #send the image
 				client.send(img.read())
@@ -171,12 +172,12 @@ def serveClient(client, address):
 # print manChan.in_json
 
 host = ''
-port = 42080
+port = 42083
 backlog = 5
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 s.bind((host,port)) 
 s.listen(backlog)
 while 1:
 	client, address = s.accept() 
-	print "client recieved!"
+	print "client recieved at " + address[0]
 	thread.start_new_thread(serveClient, (client, address))

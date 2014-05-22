@@ -16,5 +16,7 @@
     <string name="author">Author</string>
     <string name="title">Title</string>
     <string name="select_image">Select Image</string>
-
+    <string name="ip_hint">IP</string>
+    <string name="port_hint">Port</string>
+	<string name="connect">Connect</string>
 </resources>

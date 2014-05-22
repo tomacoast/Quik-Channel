@@ -10,13 +10,22 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class SendBytesTask extends AsyncTask<byte[], Void, Void> {
+	
+	private String ip;
+	private int port;
+	
+	public SendBytesTask(String ip, int port) {
+		this.port = port;
+		this.ip = ip;
+	}
+	
 	@Override
 	protected Void doInBackground(byte[]... arg0) {
 		byte[] data = arg0[0];
 		Socket s = null;
 		try {
 			//s = new Socket("192.168.0.6", 42080);
-			s = new Socket("10.230.37.207", 42080);
+			s = new Socket(ip, port);
 			s.getOutputStream().write(data);
 			s.getOutputStream().flush();
 			s.close();

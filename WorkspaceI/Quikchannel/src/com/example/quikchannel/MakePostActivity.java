@@ -30,13 +30,17 @@ import android.widget.ImageView;
 
 public class MakePostActivity extends Activity {
 
-	Bitmap bitmap;
+	private Bitmap bitmap;
+	private String ip;
+	private int port;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_make_post);
+		this.ip = this.getIntent().getExtras().getString("IP");
+		this.port = this.getIntent().getExtras().getInt("PORT");
 		this.findViewById(R.id.submit_post).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -73,9 +77,13 @@ public class MakePostActivity extends Activity {
 						stream.write(o.toJSONString().getBytes());
 						bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 						byte[] bytes = stream.toByteArray();
-						new SendBytesTask().execute(bytes);
+						new SendBytesTask(ip, port).execute(bytes);
 					} else {
-						new SendBytesTask().execute(o.toJSONString().getBytes());
+						ByteArrayOutputStream stream = new ByteArrayOutputStream();
+						stream.write(o.toJSONString().getBytes());
+						stream.write(255);
+						stream.write(217);
+						new SendBytesTask(ip, port).execute(stream.toByteArray());
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

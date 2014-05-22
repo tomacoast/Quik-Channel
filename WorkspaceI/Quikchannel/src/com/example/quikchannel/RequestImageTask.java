@@ -21,10 +21,14 @@ public class RequestImageTask extends AsyncTask<Integer, Void, Bitmap> {
 	private ImageView view;
 	private Activity context;
 	private Bitmap bitmap;
+	private int port;
+	private String ip;
 	
-	public RequestImageTask(ImageView view, Activity context) {
+	public RequestImageTask(ImageView view, Activity context, String ip, int port) {
 		this.view = view;
 		this.context = context;
+		this.ip = ip;
+		this.port = port;
 	}
 	
 	@Override
@@ -37,7 +41,7 @@ public class RequestImageTask extends AsyncTask<Integer, Void, Bitmap> {
 		Bitmap bmp = null;
 		try {
 			//Socket s = new Socket("192.168.0.6", 42080);
-			Socket s = new Socket("10.230.37.207", 42080);
+			Socket s = new Socket(ip, port);
 			s.getOutputStream().write(requestObject.toJSONString().getBytes());
 			s.getOutputStream().write('\n');
 			s.getOutputStream().flush();
