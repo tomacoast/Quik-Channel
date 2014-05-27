@@ -8,7 +8,7 @@ class Board:
 	threads = []
 	def __init__(self, title):
 		self.title = title
-		self.json_file = open("board.json", "w")
+		#self.json_file = open("board.json", "w")
 		self.post_id_counter = 0
 		#self.json_file_data = simplejson.loads(self.json_file)
 	
@@ -25,6 +25,7 @@ class Board:
 		thread.add_post(new_post)
 	
 	def update(self):
+		self.json_file = open("board.json", "w")
 		threads_in_json = []
 		for thread in self.threads:
 			thread.update()
@@ -33,6 +34,7 @@ class Board:
 		self.in_json = json.dumps(board_data, sort_keys=False, indent=2)
 		for line in self.in_json:
 			self.json_file.write(line)
+		self.json_file.close()
 
 class Thread:
 
@@ -82,16 +84,24 @@ class Post:
 
 class JSON_Board_Loader:
 	
-	def add_to_loaded(self, json_file_path, board):
+	#Adds received json to board
+	def add_to_loaded(self, data, board):
 		self.board = board
-		self.json_data = open(json_file_path)
-		data = json.load(self.json_data)
+		#self.json_data = open(json_file_path)
+		#data = json.load(self.json_data)
 		if data["threadid"] == -1:
 			board.add_thread(data["title"], data["text"], data["author"])
 		else:
 			for thread in board.threads:
 				if thread.thread_id == data["threadid"]:
 					board.add_post(thread, data["title"], data["text"], data["author"])
+	
+	#Loads board if server ever stopped
+	def load_backup(self, backup_path):
+		json_file = open(backup_path)
+		data = json.load(json_file)
+		board = Board(data["title"])
+		
 
 def recvall(sock):
 	data = ""
@@ -126,8 +136,9 @@ def writeToFile(data, filename):
 	f = open(filename, "wb")
 	f.write(data)
 
-def serveClient(client, address):
+def serveClient(client, address, board):
 	data = recvUntilEOI(client) #getting the initial data
+	print data
 	if data:
 		jsondata = data
 		imgdata = None
@@ -142,17 +153,18 @@ def serveClient(client, address):
 		loadedData = json.loads(jsondata)
 		print "found json data :" + str(loadedData)
 		if loadedData['request'] == False: #if it's not a request
-			if (loadedData['threadid'] >= 0): #adding a post to a thread
-				#write the image to a file with the name of the post id if the image is there
-				if imgdata:
-					print "saving an image to " + str(loadedData['threadid']) + ".jpg"
-					writeToFile(imgdata, str(loadedData['threadid']) + ".jpg")
-				#TODO: write the json to a post
-			else: #TODO: adding a thread to a board and save the image with the correct ID
-				pass
+			#write the image to a file with the name of the post id if the image is there
+			loader =JSON_Board_Loader()
+			if imgdata:
+				print "saving an image to " + str(loadedData['threadid']) + ".jpg"
+				writeToFile(imgdata, str(loadedData['threadid']) + ".jpg")
+			#writes the json to a post
+			loader.add_to_loaded(loadedData, board)
+			board.update()
 		else: #send requested data to the client
+			board.update()
 			if loadedData['request'] == 'board':
-				client.send('data!\n') #TODO: send json data
+				client.send(board.in_json) #send json data
 			if loadedData['request'] == 'image':
 				img = open(loadedData['image']) #send the image
 				client.send(img.read())
@@ -161,18 +173,12 @@ def serveClient(client, address):
 	client.close()
 	print "client closed!"
 
-# loader = JSON_Board_Loader()
-# manChan = Board("manChan")
-# manChan.add_thread("Sauce?", None, None)
-# manChan.add_post(manChan.threads[0], "Why I Hate QuikChan", "Does nobody ever post anything goohd?", None)
-# manChan.add_post(manChan.threads[0], None, "This thread blows", "Weston")
-# loader.add_to_loaded("new_thread_temp.json", manChan)
-# loader.add_to_loaded("new_post_temp.json", manChan)
-# manChan.update()
-# print manChan.in_json
-
+board = Board("board")
+board.add_thread("First Thread", "Board created successfully", "Admin")
+board.update()
 host = ''
-port = 42083
+port = 8124
+print port
 backlog = 5
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 s.bind((host,port)) 
@@ -180,4 +186,4 @@ s.listen(backlog)
 while 1:
 	client, address = s.accept() 
 	print "client recieved at " + address[0]
-	thread.start_new_thread(serveClient, (client, address))
+	thread.start_new_thread(serveClient, (client, address, board))
