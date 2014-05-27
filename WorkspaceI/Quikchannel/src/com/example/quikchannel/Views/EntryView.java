@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -60,6 +61,7 @@ public class EntryView extends RelativeLayout {
 		contentView.setLayoutParams(p);
 		contentView.setTextColor(getContext().getResources().getColor(R.color.text_color));
 		contentView.setPadding(10, 10, 10, 10);
+		contentView.setAutoLinkMask(Linkify.WEB_URLS);
 		this.addView(contentView);
 		
 		boxPaint = new Paint();
