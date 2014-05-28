@@ -30,11 +30,14 @@ class Board:
 		for thread in self.threads:
 			thread.update()
 			threads_in_json.append(thread.in_json)
-		board_data = {"title":self.title, "threads":threads_in_json}
+		board_data = {"title":self.title, "threads":threads_in_json, "id_counter":self.post_id_counter}
 		self.in_json = json.dumps(board_data, sort_keys=False, indent=2)
 		for line in self.in_json:
 			self.json_file.write(line)
 		self.json_file.close()
+		
+	def set_id(self, id_num):
+		self.post_id_counter = id_num
 
 class Thread:
 
@@ -101,6 +104,17 @@ class JSON_Board_Loader:
 		json_file = open(backup_path)
 		data = json.load(json_file)
 		board = Board(data["title"])
+		for thread in data["threads"]:
+			new_thread = Thread(thread["entries"][0]["title"], thread["entries"][0]["text"], thread["entries"][0]["author"], thread["entries"][0]["id"])
+			board.threads.append(new_thread)
+			for entry in thread["entries"]:
+				if entry["id"] == thread["entries"][0]["id"]:
+					pass
+				else:
+					new_post = Post(entry["title"], entry["text"], entry["author"], entry["id"])
+					new_thread.add_post(new_post)
+		board.set_id(data["id_counter"])
+		return board
 		
 
 def recvall(sock):
@@ -173,11 +187,18 @@ def serveClient(client, address, board):
 	client.close()
 	print "client closed!"
 
-board = Board("board")
-board.add_thread("First Thread", "Board created successfully", "Admin")
+loader = JSON_Board_Loader()
+board_file = open("board.json", "r+")
+board_file.seek(0)
+if board_file.read(1) == '{':
+	board = loader.load_backup("board.json")
+else:	
+	board = Board("board")
+	board.add_thread("First Thread", "Board created successfully", "Admin")
+board_file.close()
 board.update()
 host = ''
-port = 8124
+port = 8123
 print port
 backlog = 5
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 

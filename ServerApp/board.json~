@@ -1,7 +1,56 @@
 {
-    "Board":[
+  "id_counter": 6, 
+  "threads": [
+    {
+      "entries": [
         {
-        
+          "timestamp": "2014-05-27 20:57:26", 
+          "author": "Admin", 
+          "text": "Board created successfully", 
+          "id": 5, 
+          "title": "First Thread"
+        }, 
+        {
+          "timestamp": "2014-05-27 20:57:26", 
+          "author": "Anonymos", 
+          "text": "are ids broken?", 
+          "id": 1, 
+          "title": "Title"
+        }, 
+        {
+          "timestamp": "2014-05-27 20:57:26", 
+          "author": "Admin", 
+          "text": "not anymore", 
+          "id": 6, 
+          "title": "Title"
         }
-    ]
+      ]
+    }, 
+    {
+      "entries": [
+        {
+          "timestamp": "2014-05-27 20:57:26", 
+          "author": "Anonymos", 
+          "text": ">2013+1\n>no sauce thread\n\nneed sauce on this app", 
+          "id": 2, 
+          "title": "sauce thread"
+        }, 
+        {
+          "timestamp": "2014-05-27 20:57:26", 
+          "author": "Anonymos", 
+          "text": "www.github.com/tomacoast/quik-chan", 
+          "id": 3, 
+          "title": "Title"
+        }, 
+        {
+          "timestamp": "2014-05-27 20:57:26", 
+          "author": "Anonymos", 
+          "text": ">>3\n/thread", 
+          "id": 4, 
+          "title": "Title"
+        }
+      ]
+    }
+  ], 
+  "title": "board"
 }
